@@ -183,7 +183,7 @@
 		 &lt;/div&gt;
 &lt;/body&gt;
 						</pre>
-					<p> Unless otherwise stated, test cases asumes the following properties for the elements: <br>
+					<p> Unless otherwise stated, test cases assume the following properties for the elements: <br>
 						<ul>
 						<li> default value for the <code>background-color</code> of the <code>body</code></li>
 						<li> <code>background-color</code> set to a fully opaque color for all the other elements </li>
@@ -1549,6 +1549,72 @@
 								The area of the child element outside of the parent element doesn't mix with the color of the <code>body</code>.<br>
 								In other words, setting the <code>isolation</code> to <code>auto</code> does not affect the creation of a stacking context by other properties.
 							</td>
+						</tr>
+					</table>
+				</section>
+			</section>
+			<section>
+				<h4>Test cases for <code>isolation</code> in SVG</h4>
+				<section>
+					<h4>An element with <code>isolation:isolate</code> creates an isolated group for blended children</h4>
+					<p>Refers to the following assertion in the <a href="http://dev.w3.org/fxtf/compositing-1/#isolation">spec</a>: <q>In SVG, this defines whether an element is isolated or not.</q></p>
+					<table>
+						<tr>
+							<th>Test name</th>
+							<th>Elements and styles</th>
+							<th>Expected result</th>
+						</tr>
+						<tr>
+							<td>Blending in an isolated group</td>
+							<td>Set a background color for the SVG.<br>
+								Create a <code>group</code> element containing a <code>rect</code> element filled with a different solid color.<br>
+								Apply <code>isolation:isolate</code> on the group and a <code>mix-blend-mode</code> other than <code>normal</code> on the <code>rect</code>.</td>
+							<td>The <code>rect</code> will not mix with the content behind it.</td>
+						</tr>
+						<tr>
+							<td>Blending two elements in an isolated group</td>
+							<td>Set a background color for the SVG.<br>
+								Create a <code>group</code> element containing two overlapping <code>rect</code> elements, each filled with a different solid color.<br>
+								Apply <code>isolation:isolate</code> on the group and a <code>mix-blend-mode</code> other than <code>normal</code> on the second rect.</td>
+							<td>Only the intersection of the <code>rect</code> elements should mix.</td>
+						</tr>
+						<tr>
+							<td>Blending in an isolated group with 2D transform</td>
+							<td>Set a background color for the SVG.<br>
+								Create a <code>group</code> element containing a <code>rect</code> element filled with a different solid color.<br>
+								Apply <code>isolation:isolate</code> and 2D transform on the group and a <code>mix-blend-mode</code> other than <code>normal</code> on the <code>rect</code>.</td>
+							<td>The <code>rect</code> will not mix with the content behind it.</td>
+						</tr>
+						<tr>
+							<td>Set isolation on an element from JavaScript</td>
+							<td>Set a background color for the SVG.
+								<br>Create a <code>rect</code> element and fill it with a solid color and a <code>mix-blend-mode</code> other than <code>normal</code>.
+								<br>Apply <code>isolation:isolate</code> on it from JavaScript.</td>
+							<td>The <code>rect</code> will not mix with the content behind it.</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h4>An element with <code>isolation:auto</code> set does not change the rendering behaviour</h4>
+					<table>
+						<tr>
+							<th>Test name</th>
+							<th>Elements and styles</th>
+							<th>Expected result</th>
+						</tr>
+						<tr>
+							<td>Blending a group with <code>isolation:auto</code></td>
+							<td>Set a background color for the SVG.<br>
+								Create a <code>group</code> element containing a <code>rect</code> element filled with a different solid color.<br>
+								Apply <code>isolation:auto</code> on the group and a <code>mix-blend-mode</code> other than <code>normal</code> on the <code>rect</code>.</td>
+							<td>The element will mix with the content behind it.</td>
+						</tr>
+						<tr>
+							<td>Blending in a group with opacity</td>
+							<td>Set a background color for the SVG.<br>
+								Create a <code>group</code> element containing a <code>rect</code> element filled with a different solid color.<br>
+								Apply <code>opacity</code> less than 1 and <code>isolation:auto</code> on the group and a <code>mix-blend-mode</code> other than <code>normal</code> on the <code>rect</code>.</td>
+							<td>The <code>rect</code> will not mix with the content behind it.</td>
 						</tr>
 					</table>
 				</section>
